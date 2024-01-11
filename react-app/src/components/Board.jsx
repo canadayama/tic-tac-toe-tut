@@ -5,12 +5,14 @@ export default function Board({ xIsNext, squares, onPlay }) {
     if (calculateWinner(squares) || squares[i]) {
       return
     }
+
     const nextSquares = squares.slice()
     if (xIsNext) {
       nextSquares[i] = 'X'
     } else {
       nextSquares[i] = 'O'
     }
+
     onPlay(nextSquares)
   }
 
@@ -22,10 +24,24 @@ export default function Board({ xIsNext, squares, onPlay }) {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O')
   }
 
+  let board = [];
+  for (let row = 0; row < 3; row++) {
+    let rowStart = row * 3;
+    let rowDiv = [];
+    for (let col = 0; col < 3; col++) {
+      let i = rowStart + col
+      rowDiv.push(
+        <Square value={squares[i]} onSquareClick={() => handleClick(i)} />
+      )
+    }
+    board.push(<div className="board-row">{rowDiv}</div>)
+  }
+
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
+      <div>{board}</div>
+      {/* <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
@@ -39,7 +55,7 @@ export default function Board({ xIsNext, squares, onPlay }) {
         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      </div> */}
     </>
   )
 }
